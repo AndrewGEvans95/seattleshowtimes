@@ -6,6 +6,7 @@ from apscheduler.schedulers.asyncio import AsyncIOScheduler
 
 from backend.cache import write_venue_cache
 from backend.models import Venue
+from backend.scrapers.beacon import BeaconScraper
 from backend.scrapers.grand_illusion import GrandIllusionScraper
 from backend.scrapers.nwfilmforum import NWFFScraper
 from backend.scrapers.siff import SIFFScraper
@@ -36,11 +37,16 @@ async def refresh_nwff() -> None:
     await _run_scraper(NWFFScraper, Venue.NWFF)
 
 
+async def refresh_beacon() -> None:
+    await _run_scraper(BeaconScraper, Venue.BEACON)
+
+
 async def refresh_all() -> None:
     # Run sequentially to be polite and conserve RAM
     await refresh_grand_illusion()
     await refresh_siff()
     await refresh_nwff()
+    await refresh_beacon()
 
 
 def setup_scheduler() -> AsyncIOScheduler:
@@ -48,4 +54,5 @@ def setup_scheduler() -> AsyncIOScheduler:
     scheduler.add_job(refresh_grand_illusion, "interval", hours=6, id="grand_illusion")
     scheduler.add_job(refresh_siff, "interval", hours=3, id="siff")
     scheduler.add_job(refresh_nwff, "interval", hours=3, id="nwff")
+    scheduler.add_job(refresh_beacon, "interval", hours=6, id="beacon")
     return scheduler

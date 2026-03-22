@@ -17,6 +17,7 @@ class Venue(StrEnum):
     SIFF = "SIFF"
     NWFF = "Northwest Film Forum"
     GRAND_ILLUSION = "Grand Illusion Cinema"
+    BEACON = "The Beacon"
 
 
 class Showtime(BaseModel):

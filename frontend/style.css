@@ -240,6 +240,11 @@ h2 {
   color: #ffe0b2;
 }
 
+.movie-cinema[data-venue="The Beacon"] {
+  border-color: #00bcd4;
+  color: #b2ebf2;
+}
+
 /* ── Other Times button ── */
 .other-times-btn {
   flex: 0 0 auto;
@@ -460,10 +465,10 @@ footer {
     word-break: break-word;
   }
 
-  /* Tabs: 2-column grid so they don't eat the whole screen */
+  /* Tabs: auto-fit grid so they don't eat the whole screen */
   .tabs {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
     gap: 8px;
     margin-bottom: 16px;
   }
