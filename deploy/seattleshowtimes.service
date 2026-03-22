@@ -1,0 +1,15 @@
+[Unit]
+Description=Seattle Showtimes FastAPI backend
+After=network.target
+
+[Service]
+Type=simple
+User=www-data
+WorkingDirectory=/var/www/seattleshowtimes
+ExecStart=/var/www/seattleshowtimes/.venv/bin/uvicorn backend.main:app --host 127.0.0.1 --port 8000
+Restart=always
+RestartSec=5
+Environment=PYTHONPATH=/var/www/seattleshowtimes
+
+[Install]
+WantedBy=multi-user.target

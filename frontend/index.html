@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Seattle Showtimes</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Seattle Showtimes</h1>
+
+    <div class="tabs">
+      <div class="tab active">Movie Schedule</div>
+      <a class="tab" href="https://www.siff.net/cinema/in-theaters" target="_blank" rel="noopener">SIFF</a>
+      <a class="tab" href="https://nwfilmforum.org/calendar" target="_blank" rel="noopener">NW Film Forum</a>
+      <a class="tab" href="https://grandillusioncinema.org/calendar/" target="_blank" rel="noopener">Grand Illusion</a>
+    </div>
+
+    <div class="filter">
+      <div class="filter-group">
+        <label for="groupFilter">View:</label>
+        <select id="groupFilter">
+          <option value="by-day">By Day</option>
+          <option value="by-movie">By Movie</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label for="dayFilter">Date:</label>
+        <select id="dayFilter">
+          <option value="all">All Days</option>
+          <option value="today">Today</option>
+          <option value="week">This Week</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label for="venueFilter">Venue:</label>
+        <select id="venueFilter">
+          <option value="all">All Venues</option>
+          <option value="SIFF">SIFF</option>
+          <option value="Northwest Film Forum">NW Film Forum</option>
+          <option value="Grand Illusion Cinema">Grand Illusion</option>
+        </select>
+      </div>
+    </div>
+
+    <div id="stale-warning" class="stale-warning hidden"></div>
+    <div id="loading" class="loading">Loading showtimes...</div>
+    <div id="showtime-list"></div>
+
+    <footer id="footer"></footer>
+  </div>
+
+  <!-- Other Times Dialog -->
+  <div id="other-times-dialog" class="other-times-dialog hidden">
+    <div class="other-times-dialog-title" id="other-times-title"></div>
+    <div class="other-times-list" id="other-times-list"></div>
+    <button class="closeBtn" onclick="closeOtherTimes()">Close</button>
+  </div>
+  <div id="dialog-overlay" class="dialog-overlay hidden" onclick="closeOtherTimes()"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
