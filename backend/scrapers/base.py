@@ -4,8 +4,11 @@ import hashlib
 from abc import ABC, abstractmethod
 from datetime import date, time, datetime, timezone
 from typing import Optional
+from zoneinfo import ZoneInfo
 
 from backend.models import Showtime, Venue
+
+PACIFIC = ZoneInfo("America/Los_Angeles")
 
 
 def make_id(venue: Venue, title: str, show_date: date, show_time: time) -> str:
@@ -15,6 +18,11 @@ def make_id(venue: Venue, title: str, show_date: date, show_time: time) -> str:
 
 def utc_now() -> datetime:
     return datetime.now(timezone.utc)
+
+
+def pacific_today() -> date:
+    """Current date in Seattle (America/Los_Angeles), regardless of server TZ."""
+    return datetime.now(PACIFIC).date()
 
 
 def parse_12h_time(time_str: str) -> Optional[time]:

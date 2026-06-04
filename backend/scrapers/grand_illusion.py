@@ -9,7 +9,7 @@ import requests
 from bs4 import BeautifulSoup
 
 from backend.models import Showtime, Venue
-from backend.scrapers.base import BaseScraper, parse_12h_time
+from backend.scrapers.base import BaseScraper, pacific_today, parse_12h_time
 
 logger = logging.getLogger(__name__)
 
@@ -48,7 +48,7 @@ def _scrape_month(target: date) -> list[Showtime]:
     showtimes: list[Showtime] = []
     scraper = GrandIllusionScraper()
 
-    today = date.today()
+    today = pacific_today()
     cutoff = today + timedelta(days=7)
 
     for day_li in soup.select("li.day:not(.heading)"):
@@ -101,7 +101,7 @@ class GrandIllusionScraper(BaseScraper):
     async def scrape(self) -> list[Showtime]:
         showtimes: list[Showtime] = []
 
-        today = date.today()
+        today = pacific_today()
         months_to_scrape = {today.replace(day=1)}
         # If we're within 7 days of end of month, also scrape next month
         next_month_start = (today.replace(day=28) + timedelta(days=4)).replace(day=1)

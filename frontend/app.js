@@ -210,12 +210,15 @@ function groupBy(arr, keyFn) {
 }
 
 function todayISO() {
-  return new Date().toISOString().slice(0, 10);
+  // Always "today" in Seattle, regardless of the viewer's own timezone.
+  // en-CA locale yields YYYY-MM-DD.
+  return new Date().toLocaleDateString('en-CA', { timeZone: 'America/Los_Angeles' });
 }
 
 function addDays(isoDate, n) {
-  const d = new Date(isoDate + 'T00:00:00');
-  d.setDate(d.getDate() + n);
+  // Anchor at noon UTC and use UTC math so DST / local offsets never shift the date.
+  const d = new Date(isoDate + 'T12:00:00Z');
+  d.setUTCDate(d.getUTCDate() + n);
   return d.toISOString().slice(0, 10);
 }
 

@@ -8,7 +8,7 @@ import requests
 from bs4 import BeautifulSoup
 
 from backend.models import Showtime, Venue
-from backend.scrapers.base import BaseScraper, make_id, utc_now
+from backend.scrapers.base import BaseScraper, make_id, pacific_today, utc_now
 
 logger = logging.getLogger(__name__)
 
@@ -18,7 +18,7 @@ HEADERS = {"User-Agent": USER_AGENT}
 
 
 def _get_week_starts(num_weeks: int = 3) -> list[date]:
-    today = date.today()
+    today = pacific_today()
     # NWFF uses Sunday-anchored weeks based on observed ?start= param behavior
     # Start from today's Sunday
     sunday = today - timedelta(days=(today.weekday() + 1) % 7)
@@ -26,7 +26,7 @@ def _get_week_starts(num_weeks: int = 3) -> list[date]:
 
 
 def _scrape_week(week_start: date, cutoff: date) -> list[Showtime]:
-    today = date.today()
+    today = pacific_today()
     url = f"{CALENDAR_URL}?start={week_start.isoformat()}"
 
     try:
@@ -109,7 +109,7 @@ class NWFFScraper(BaseScraper):
     source_url = CALENDAR_URL
 
     async def scrape(self) -> list[Showtime]:
-        cutoff = date.today() + timedelta(days=7)
+        cutoff = pacific_today() + timedelta(days=7)
         all_showtimes: list[Showtime] = []
         seen_ids: set[str] = set()
 

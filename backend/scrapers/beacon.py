@@ -8,7 +8,7 @@ import requests
 from bs4 import BeautifulSoup
 
 from backend.models import Showtime, Venue
-from backend.scrapers.base import BaseScraper
+from backend.scrapers.base import BaseScraper, pacific_today
 
 logger = logging.getLogger(__name__)
 
@@ -31,7 +31,7 @@ def _scrape_page() -> list[Showtime]:
     scraper = BeaconScraper()
     showtimes: list[Showtime] = []
 
-    today = date.today()
+    today = pacific_today()
     cutoff = today + timedelta(days=7)
 
     # Each section.showtime is one screening; it has schema.org itemprop attributes

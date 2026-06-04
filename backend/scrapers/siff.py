@@ -10,7 +10,7 @@ import requests
 from bs4 import BeautifulSoup
 
 from backend.models import Showtime, Venue
-from backend.scrapers.base import BaseScraper, make_id, utc_now
+from backend.scrapers.base import BaseScraper, make_id, pacific_today, utc_now
 
 logger = logging.getLogger(__name__)
 
@@ -32,7 +32,7 @@ def _parse_epoch_ms(epoch_str: str) -> datetime | None:
 def _fetch_film_showtimes(film_path: str, film_title: str, cutoff_date: date) -> list[Showtime]:
     """Fetch a single SIFF film detail page and extract screenings."""
     url = FILM_BASE_URL + film_path
-    today = date.today()
+    today = pacific_today()
     scraper = SIFFScraper()
 
     try:
@@ -132,7 +132,7 @@ class SIFFScraper(BaseScraper):
     source_url = IN_THEATERS_URL
 
     async def scrape(self) -> list[Showtime]:
-        today = date.today()
+        today = pacific_today()
         cutoff = today + timedelta(days=7)
 
         try:
