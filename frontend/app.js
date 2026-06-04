@@ -130,10 +130,28 @@ function movieRow(s, allForContext) {
       <div class="movie-info">
         <span class="movie-time">${formatTime(s.show_time)}</span>
         <span class="movie-cinema" data-venue="${escAttr(s.venue)}">${escHtml(s.venue)}</span>
+        ${soldBar(s.sold_percentage)}
         ${otherTimesBtn}
         ${shareBtn}
       </div>
     </div>`;
+}
+
+// ── Sold-out progress bar (SIFF only) ─────────────────────────────────────────
+function soldBar(pct) {
+  if (pct === null || pct === undefined || isNaN(pct)) return '';
+  const clamped = Math.max(0, Math.min(100, pct));
+  // Heat level: how full the showing is
+  let level = 'low';
+  if (clamped >= 80) level = 'full';
+  else if (clamped >= 50) level = 'high';
+  else if (clamped >= 25) level = 'mid';
+  const label = clamped >= 99 ? 'SOLD OUT' : `${Math.round(clamped)}% full`;
+  return `
+    <span class="sold-bar" data-level="${level}" title="${label}">
+      <span class="sold-fill" style="width:${clamped}%"></span>
+      <span class="sold-label">${label}</span>
+    </span>`;
 }
 
 // ── Other Times dialog ────────────────────────────────────────────────────────

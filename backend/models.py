@@ -33,6 +33,7 @@ class Showtime(BaseModel):
     runtime_minutes: Optional[int] = None
     ticket_url: Optional[str] = None
     film_url: Optional[str] = None
+    sold_percentage: Optional[float] = None  # SIFF only: % of venue capacity sold
     scraped_at: datetime
     source_url: str
 

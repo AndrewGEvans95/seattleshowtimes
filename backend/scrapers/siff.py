@@ -109,6 +109,14 @@ def _fetch_film_showtimes(film_path: str, film_title: str, cutoff_date: date) ->
                 except ValueError:
                     pass  # keep the UTC-derived time as fallback
 
+            # Percentage of venue capacity sold (SIFF exposes this in the JSON).
+            # Only meaningful once tickets are actually on sale.
+            sold_pct: float | None = None
+            if screening_data.get('HasTicketsOnSale'):
+                raw_pct = screening_data.get('CapacitySoldOutPercentage')
+                if isinstance(raw_pct, (int, float)):
+                    sold_pct = round(float(raw_pct), 1)
+
             showtime_id = make_id(Venue.SIFF, film_title, show_date, t)
             showtimes.append(Showtime(
                 id=showtime_id,
@@ -120,6 +128,7 @@ def _fetch_film_showtimes(film_path: str, film_title: str, cutoff_date: date) ->
                 description=description,
                 ticket_url=url,
                 film_url=url,
+                sold_percentage=sold_pct,
                 scraped_at=utc_now(),
                 source_url=url,
             ))

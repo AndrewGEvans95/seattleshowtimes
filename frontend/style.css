@@ -245,6 +245,44 @@ h2 {
   color: #b2ebf2;
 }
 
+/* ── Sold-out progress bar (SIFF only) ── */
+.sold-bar {
+  position: relative;
+  flex: 0 0 auto;
+  width: 110px;
+  height: 32px;
+  border: 2px solid #3498db;
+  border-radius: 4px;
+  background: #1b2a3a;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sold-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background: #27ae60;
+  transition: width 0.4s ease;
+  z-index: 0;
+}
+
+.sold-bar[data-level="mid"] .sold-fill  { background: #f1c40f; }
+.sold-bar[data-level="high"] .sold-fill { background: #e67e22; }
+.sold-bar[data-level="full"] .sold-fill { background: #e74c3c; }
+
+.sold-label {
+  position: relative;
+  z-index: 1;
+  font-size: 8px;
+  color: #ecf0f1;
+  white-space: nowrap;
+  text-shadow: 0 0 3px #000, 0 0 3px #000;
+}
+
 /* ── Other Times button ── */
 .other-times-btn {
   flex: 0 0 auto;
@@ -557,6 +595,13 @@ footer {
     flex: 0 0 auto;
     white-space: nowrap;
   }
+
+  .sold-bar {
+    height: 28px;
+    width: 90px;
+  }
+
+  .sold-label { font-size: 7px; }
 
   /* Share button: small square icon only */
   .share-btn {
