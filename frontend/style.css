@@ -550,13 +550,21 @@ footer {
     margin: 12px 0;
   }
 
-  /* Movie row: [time] [title+meta] on line 1, actions wrap to line 2 */
+  /* Mobile movie row: a single vertical stack, not a nested horizontal
+     flex layout. Every element is a full-width block, so nothing can be
+     squeezed until it overflows and gets clipped. The capacity bar spans
+     the whole row width — it literally cannot disappear.
+
+       7:30pm
+       THE SPOOK WHO SAT BY THE DOOR
+       SIFF
+       [██████░░░░░░ 18% full        ]
+                    [Other Times] [⎘] */
   .movie {
     display: flex;
-    flex-wrap: wrap;
-    align-items: flex-start;
-    column-gap: 10px;
-    row-gap: 6px;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 6px;
     padding: 12px;
     margin-bottom: 10px;
     border-radius: 6px;
@@ -564,21 +572,21 @@ footer {
   }
 
   .movie-time {
+    flex: none;
     width: auto;
-    flex: 0 0 auto;
-    font-size: 12px;
+    font-size: 11px;
     text-align: left;
-    padding-top: 1px;
   }
 
   .movie-main {
-    flex: 1 1 auto;
+    flex: none;
+    width: 100%;
     min-width: 0;
     gap: 6px;
   }
 
   .movie-title {
-    font-size: 10px;
+    font-size: 11px;
   }
 
   .movie-title a,
@@ -591,20 +599,34 @@ footer {
     display: inline;
   }
 
+  /* Venue tag and capacity bar stack vertically */
   .movie-meta {
-    gap: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 6px;
     min-width: 0;
-    flex-wrap: nowrap;
   }
 
   .movie-cinema {
+    align-self: flex-start;   /* tag hugs the left, not full width */
     font-size: 8px;
     padding: 3px 6px;
   }
 
-  /* Actions drop to their own full-width line, right-aligned */
+  /* Full-width block bar — cannot overflow or be clipped */
+  .sold-bar {
+    flex: none;
+    width: 100%;
+    height: 22px;
+  }
+
+  .sold-label { font-size: 8px; }
+
+  /* Actions: their own full-width line, right-aligned */
   .movie-actions {
-    flex: 1 1 100%;
+    flex: none;
+    width: 100%;
     justify-content: flex-end;
     margin-left: 0;
   }
@@ -617,20 +639,6 @@ footer {
     flex: 0 0 auto;
     white-space: nowrap;
   }
-
-  /* On mobile the bar flexes to fill the remaining width of the meta line
-     instead of being a rigid 92px block. A rigid block can overflow the
-     squeezed center column and get clipped by the container's
-     overflow-x: hidden — which is what was making it disappear. */
-  .sold-bar {
-    height: 20px;
-    flex: 1 1 auto;
-    width: auto;
-    min-width: 56px;
-    max-width: 160px;
-  }
-
-  .sold-label { font-size: 7px; }
 
   /* Share button: small square icon only */
   .share-btn {
