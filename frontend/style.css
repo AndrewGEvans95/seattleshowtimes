@@ -572,7 +572,7 @@ footer {
   }
 
   .movie-main {
-    flex: 1 1 0;
+    flex: 1 1 auto;
     min-width: 0;
     gap: 6px;
   }
@@ -591,7 +591,11 @@ footer {
     display: inline;
   }
 
-  .movie-meta { gap: 8px; }
+  .movie-meta {
+    gap: 8px;
+    min-width: 0;
+    flex-wrap: nowrap;
+  }
 
   .movie-cinema {
     font-size: 8px;
@@ -614,9 +618,16 @@ footer {
     white-space: nowrap;
   }
 
+  /* On mobile the bar flexes to fill the remaining width of the meta line
+     instead of being a rigid 92px block. A rigid block can overflow the
+     squeezed center column and get clipped by the container's
+     overflow-x: hidden — which is what was making it disappear. */
   .sold-bar {
     height: 20px;
-    width: 92px;
+    flex: 1 1 auto;
+    width: auto;
+    min-width: 56px;
+    max-width: 160px;
   }
 
   .sold-label { font-size: 7px; }
