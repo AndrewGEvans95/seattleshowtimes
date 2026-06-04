@@ -126,11 +126,15 @@ function movieRow(s, allForContext) {
 
   return `
     <div class="movie" id="movie-${s.id}" data-id="${s.id}">
-      <span class="movie-title">${titleHtml}</span>
-      <div class="movie-info">
-        <span class="movie-time">${formatTime(s.show_time)}</span>
-        <span class="movie-cinema" data-venue="${escAttr(s.venue)}">${escHtml(s.venue)}</span>
-        ${soldBar(s.sold_percentage)}
+      <div class="movie-time">${formatTime(s.show_time)}</div>
+      <div class="movie-main">
+        <span class="movie-title">${titleHtml}</span>
+        <div class="movie-meta">
+          <span class="movie-cinema" data-venue="${escAttr(s.venue)}">${escHtml(s.venue)}</span>
+          ${soldBar(s.sold_percentage)}
+        </div>
+      </div>
+      <div class="movie-actions">
         ${otherTimesBtn}
         ${shareBtn}
       </div>
