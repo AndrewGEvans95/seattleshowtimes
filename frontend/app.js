@@ -27,6 +27,7 @@ async function init() {
   document.getElementById('groupFilter').addEventListener('change', render);
   document.getElementById('dayFilter').addEventListener('change', render);
   document.getElementById('venueFilter').addEventListener('change', render);
+  document.getElementById('capacityFilter').addEventListener('change', render);
 }
 
 // ── Date filter options ────────────────────────────────────────────────────────
@@ -44,16 +45,26 @@ function populateDateFilter() {
 
 // ── Filtering ─────────────────────────────────────────────────────────────────
 function getFilteredShowtimes() {
-  const group = document.getElementById('groupFilter').value;
   const dayVal = document.getElementById('dayFilter').value;
   const venueVal = document.getElementById('venueFilter').value;
+  const capVal = document.getElementById('capacityFilter').value;
   const today = todayISO();
 
   return allShowtimes.filter(s => {
     if (venueVal !== 'all' && s.venue !== venueVal) return false;
-    if (dayVal === 'today') return s.show_date === today;
-    if (dayVal === 'week') return s.show_date >= today && s.show_date <= addDays(today, 6);
-    if (dayVal !== 'all') return s.show_date === dayVal;
+
+    // Date
+    if (dayVal === 'today' && s.show_date !== today) return false;
+    else if (dayVal === 'week' && !(s.show_date >= today && s.show_date <= addDays(today, 6))) return false;
+    else if (dayVal !== 'all' && dayVal !== 'today' && dayVal !== 'week' && s.show_date !== dayVal) return false;
+
+    // Capacity — "0% full" means a venue with capacity data (SIFF) that has
+    // sold nothing yet. Rows without capacity data (other venues) are excluded.
+    if (capVal === 'empty') {
+      if (s.sold_percentage === null || s.sold_percentage === undefined) return false;
+      if (Math.round(s.sold_percentage) !== 0) return false;
+    }
+
     return true;
   });
 }

@@ -89,7 +89,7 @@ h2 {
 /* ── Filter bar ── */
 .filter {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
   gap: 24px;
   margin-bottom: 32px;
   padding: 24px;
@@ -673,7 +673,7 @@ footer {
 /* ── Tablet ── */
 @media (max-width: 1024px) and (min-width: 768px) {
   .container { width: 95%; padding: 24px; }
-  .filter { grid-template-columns: 1fr 1fr 1fr; gap: 16px; padding: 20px; }
+  .filter { grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 16px; padding: 20px; }
   .tab { padding: 14px 20px; font-size: 11px; }
   .movie-title { font-size: 16px; }
 }
